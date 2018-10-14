@@ -1,29 +1,61 @@
-const connection = require('./connection');
+var connection = require ('./connection.js');
 
-const orm = {
-    selectAll: function(tableName, cb) {
-      const queryString = 'SELECT * FROM ??';
-      connection.query(queryString, [tableName], function(err, result) {
-        if (err) throw err;
-        cb(result);
-      });
-    },
-    insertOne: function(tableName, colName, value, cb) {
-      const queryString = 'INSERT INTO ?? (??) VALUES (?)';
-  
-      connection.query(queryString, [tableName, colName, value], function(err, result) {
-        if (err) throw err;
-        cb(result);
-      });
-    },
-    updateOne: function(tableName, colName1, value1, colName2, value2, cb) {
-        const queryString = 'UPDATE ?? SET ?? = ? WHERE ?? = ?';
-    
-        connection.query(queryString, [tableName, colName1, value1, colName2, value2], function(err, result) {
-          if (err) throw err;
-          cb(result);
-        });
-    }
-  };
-  
-  module.exports = orm;
+function printQuestionMarks(num) {
+	var arr = [];
+	for (var i = 0; i < num; i++) {
+		arr.push("?");
+	}
+	return arr.toString();
+}
+
+var orm = {
+	selectAll: function(tableInput, cb) {
+		var queryString = "SELECT * FROM " + tableInput + ";";
+
+		connection.query(queryString, function(err, result) {
+			if (err) {
+				throw err;
+			}
+
+			cb(result);
+		});
+	},
+
+	insertOne: function(table, cols, vals, cb) {
+
+		var queryString = "INSERT INTO " + table;
+
+		queryString += " (";
+		queryString += cols.toString();
+		queryString += ") ";
+		queryString += "VALUES (";
+		queryString += printQuestionMarks(vals.length);
+		queryString += ") ";
+
+		connection.query(queryString, vals, function(err, result) {
+			if (err) {
+				throw err;
+			}
+
+			cb(result);
+		});
+	},
+
+	updateOne: function(table, condition, cb) {
+
+		var queryString = "UPDATE " + table;
+
+		queryString += " SET devoured = true WHERE ";
+		queryString += condition;
+
+		connection.query(queryString, function(err, result) {
+			if (err) {
+				throw err;
+			}
+
+			cb(result);
+		});
+	}
+};
+
+module.exports = orm;

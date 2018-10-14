@@ -1,0 +1,31 @@
+body {
+    text-align: center;
+}
+
+img {
+    width: 400px;
+    height: auto;
+}
+
+li {
+    text-align: left;
+    margin-left: 60px;
+}
+
+.burgers{
+    display: block;
+    text-align: center;
+}
+
+.burgerDiv{
+    display: inline-block;
+    width: 370px;
+    height: auto;
+    padding-left: 5px;
+    padding-right: 5px;
+    vertical-align: top;
+}
+
+#burger-form{
+    margin-top: 50px;
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<script src="https://code.jquery.com/jquery.js"></script>
+	<title>Eat-A-Burger</title>
+	<link rel="stylesheet" type="text/css" href="/assets/css/burger_style.css">
+</head>
+
+<body>
+	{{{ body }}}
+</body>
+</html>
+
+<script>
+	$(".burgerAvailable").on("click", function(event) {
+    	var id = $(this).data("id");
+
+    	$.ajax("/burgers/" + id, {
+      		type: "PUT",
+			data: null
+    	}).then(
+      		function() {
+        		location.reload();
+      		}
+    	);
+  	});
+
+	$(".create-form").on("submit", function(event) {
+    	event.preventDefault();
+
+		if($('#burg').val() === '') {
+			alert('You must put something in the text box!')
+		} else {
+
+    		var newBurger = {
+      			burger_name: $("#burg").val().trim(),
+    		};
+
+    		$.ajax("/burgers", {
+      			type: "POST",
+      			data: newBurger
+    		}).then(
+      			function() {
+        			location.reload();
+      			}
+    		);
+		}
+  	});
+</script>
